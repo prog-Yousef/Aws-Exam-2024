@@ -1,0 +1,81 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: yousefs
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: aws-Exam-2024
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  iam:
+    role: arn:aws:iam::396913740002:role/lecture-role
+
+build:
+  esbuild:
+    minify: true
+
+package:
+  individually: true
+
+functions:
+  CreateRoom:
+    handler: functions/createRoom/index.handler
+    events:
+      - httpApi:
+          path: /rooms
+          method: post
+  
+  BookRoom:
+    handler: functions/BookRoom/index.handler
+    events:
+      - httpApi:
+          path: /book
+          method: post
+
+  GetSpecRoom:
+    handler: functions/GetSpecRoom/index.handler
+    events:
+      - httpApi:
+          path: /rooms/{id}
+          method: get
+
+  GetAllRoom:
+    handler: functions/GetAllRoom/index.handler
+    events:
+      - httpApi:
+          path: /rooms
+          method: get
+
+  UpdateRoom:
+    handler: functions/UpdateRoom/index.handler
+    events:
+      - httpApi:
+          path: /rooms/{id}
+          method: put
+
+resources:
+  Resources:
+    BookingTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: hotel_bookings_table
+        AttributeDefinitions:
+          - AttributeName: 'booking_Id'
+            AttributeType: 'S'
+          - AttributeName: 'checkIn_Date'
+            AttributeType: 'S'
+        KeySchema:
+          - AttributeName: 'booking_Id'
+            KeyType: HASH
+          - AttributeName: 'checkIn_Date'
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: CheckIn_DateIndex
+            KeySchema:
+              - AttributeName: 'checkIn_Date'
+                KeyType: HASH
+            Projection:
+              ProjectionType: 'ALL'
+
+# kanske en till tabell för rooms
