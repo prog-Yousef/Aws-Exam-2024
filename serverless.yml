@@ -19,7 +19,7 @@ package:
 
 functions:
   CreateRoom:
-    handler: functions/createRoom/index.handler
+    handler: functions/CreateRoom/index.handler
     events:
       - httpApi:
           path: /rooms

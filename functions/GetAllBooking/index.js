@@ -3,29 +3,25 @@ const { db } = require("../../services/db")
 
 
 // Hämtar bokningar sorterat efter datum. Men kanske räcker med att göra en scan för att hämta allt...
-exports.handler = async (event) => {
+module.exports.handler = async (event) => {
     console.log(event)
 
     const { startDate, endDate } = JSON.parse(event.body)
 
     try {
-        const {Items} = await db.query({
+        const {Items} = await db.scan({
             TableName: "bookings",
-            IndexName: "CheckInDateIndex",
-            KeyConditionExpression: "checkInDate >= :startDate AND checkInDate <= :endDate",
-            ExpressionAttributeValues: {
-                ":startDate": startDate,
-                ":endDate": endDate
-            },
-            ScanIndexForward: true // sorterar efter datum i fallande ordning 
+            // IndexName: "CheckInDateIndex",
+            // KeyConditionExpression: "checkInDate >= :startDate AND checkInDate <= :endDate",
+            // ExpressionAttributeValues: {
+            //     ":startDate": startDate,
+            //     ":endDate": endDate
+            // },
+            // ScanIndexForward: true, // sorterar efter datum i fallande ordning 
+            ProjectionExpression: "bookingId, checkInDate, checkOutDate, numberOfGuests, customerName, rooms"
         })
 
-        // Specificera returen: 
-        // Bokningsnummer
-        // In-och utcheckningsdatum
-        // Antal gäster
-        // Antalet rum
-        // Namn på den som bokade rummet
+        
 
         return {
             statusCode: 200,
@@ -36,7 +32,7 @@ exports.handler = async (event) => {
         console.error(error)
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: "Error", error: error.message})
+            body: JSON.stringify({ message: "Error get bookings", error: error.message})
         }
     }
 }
