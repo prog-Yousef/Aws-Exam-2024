@@ -17,59 +17,82 @@ build:
 package:
   individually: true
 
+
 functions:
   CreateRoom:
-    handler: functions/createRoom/index.handler
+    handler: functions/CreateRoom/index.handler
     events:
       - httpApi:
           path: /rooms
           method: post
-  
-  BookRoom:
-    handler: functions/BookRoom/index.handler
+
+  CreateBooking:
+    handler: functions/CreateBooking/index.handler
     events:
       - httpApi:
-          path: /book
+          path: /booking
           method: post
 
-  GetSpecRoom:
-    handler: functions/GetSpecRoom/index.handler
+  GetSpecBooking:
+    handler: functions/GetSpecBooking/index.handler
     events:
       - httpApi:
-          path: /rooms/{id}
+          path: /booking/{id}
           method: get
 
-  GetAllRoom:
-    handler: functions/GetAllRoom/index.handler
+  GetAllBooking:
+    handler: functions/GetAllBooking/index.handler
     events:
       - httpApi:
-          path: /rooms
+          path: /booking
           method: get
 
-  UpdateRoom:
-    handler: functions/UpdateRoom/index.handler
+  UpdateBooking:
+    handler: functions/UpdateBooking/index.handler
     events:
       - httpApi:
-          path: /rooms/{id}
+          path: /booking/{id}
           method: put
 
 resources:
   Resources:
-    BookingTable:
+    Bookings:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: hotel_bookings_table
+        TableName: bookings
         AttributeDefinitions:
-          - AttributeName: 'booking_Id'
-            AttributeType: 'S'
-          - AttributeName: 'checkIn_Date'
-            AttributeType: 'S'
+          - AttributeName: bookingId
+            AttributeType: S
+          - AttributeName: checkInDate
+            AttributeType: S
         KeySchema:
-          - AttributeName: 'booking_Id'
+          - AttributeName: bookingId
             KeyType: HASH
-          - AttributeName: 'checkIn_Date'
-            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: CheckInDateIndex
+            KeySchema:
+              - AttributeName: checkInDate
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
 
-
-# kanske en till tabell för rooms
+    Rooms:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: rooms
+        AttributeDefinitions:
+          - AttributeName: roomType
+            AttributeType: S
+        KeySchema:
+          - AttributeName: roomType
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+# Exempel på rooms data:
+# [
+#   { "roomType": "single", "guestsAllowed": 1, "price": 500, availableRooms: 8 },
+#   { "roomType": "double", "guestsAllowed": 2, "price": 1000, availableRooms: 8 },
+#   { "roomType": "suite", "guestsAllowed": 3, "price": 1500, availableRooms: 4 }
+# ]
+# Vi behöver inte söka efter individuella rum ( behövs inte roomId ) utan bara rumstyper
+# checkInDate som GSI - om man vill sortera alla bokningar efter datum
