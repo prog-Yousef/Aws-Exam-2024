@@ -36,7 +36,9 @@ module.exports.handler = async (event) => {
                 }
             })
 
-            const roomDetails = Items[0] // returnerade en array med ett objekt
+            console.log("Room details", Items)
+
+            const roomDetails = Items[0] // returnerade en array med aktuell rumstyp
 
 
             // räkna ut totala antal gäster som får plats samt totala priset
@@ -53,8 +55,8 @@ module.exports.handler = async (event) => {
         }
 
         const bookingId = uuidv4()
-        const checkInDateObject = new Date(checkInDate)
-        const checkOutDateObject = new Date(checkOutDate)
+        const checkInDateFormatted = new Date(checkInDate).toISOString().split("T")[0]
+        const checkOutDateFormatted = new Date(checkOutDate).toISOString().split("T")[0]
 
         await db.put({
             TableName: "bookings",
@@ -64,22 +66,26 @@ module.exports.handler = async (event) => {
                 customerEmail: customerEmail,
                 guests: guests,
                 rooms: rooms,
-                checkInDate: checkInDateObject.toISOString(), 
-                checkOutDate: checkOutDateObject.toISOString(),
+                checkInDate: checkInDateFormatted, 
+                checkOutDate: checkOutDateFormatted,
                 totalCost
             }
         })
+
+        const bookingConfirmation = {
+            bookingNumber: bookingId,
+            numberOfGuests: guests,
+            totalCost,
+            checkInDate,
+            checkOutDate,
+            name: customerName
+        }
 
         return {
             statusCode: 200,
             body: JSON.stringify({ 
                 message: "Booking created",
-                bookingNumber: bookingId,
-                numberOfGuests: guests,
-                totalCost: totalCost,
-                checkInDate: checkInDate,
-                checkOutDate: checkOutDate,
-                name: customerName
+                bookingConfirmation
             })
         }
 
@@ -89,7 +95,4 @@ module.exports.handler = async (event) => {
             body: JSON.stringify({ message: "Failed", error: error.message })
         }
     }
-
-
-
 }
