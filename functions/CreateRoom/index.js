@@ -1,6 +1,6 @@
 const { db } = require("../../services/db");
 const { sendResponse, sendError } = require("../../responses/index");
-const generateRooms = require("../../utils/generateRooms");
+const generateRooms = require("../../utils/generateRooms.js");
 const { v4: uuidv4 } = require('uuid');
 
 exports.handler = async (event) => {
