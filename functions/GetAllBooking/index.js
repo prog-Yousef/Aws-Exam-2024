@@ -1,5 +1,7 @@
 const { db } = require("../../services/db")
 
+const { db } = require("../../services/db");
+
 
 
 // Hämtar bokningar sorterat efter datum. Men kanske räcker med att göra en scan för att hämta allt...
