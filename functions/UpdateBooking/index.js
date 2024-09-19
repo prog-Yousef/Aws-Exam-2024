@@ -33,7 +33,7 @@ exports.handler = async (event) => {
         const updatedGuests = guests || booking.guests
 
         if (updatedRooms || updatedGuests) {
-            const validation = await validateGuestsAndRooms(updatedGuests, updatedRooms);
+            const validation = await validateGuestsAndRooms(updatedGuests, updatedRooms)
             if (!validation.valid) {
                 return {
                     statusCode: 400,
@@ -60,7 +60,7 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: "Successfully updated booking", updatedBooking})
+            body: JSON.stringify({ message: "Successfully updated booking", updatedBooking })
         }
 
     } catch (error) {
