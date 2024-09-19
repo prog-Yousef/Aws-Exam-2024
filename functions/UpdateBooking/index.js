@@ -28,11 +28,11 @@ exports.handler = async (event) => {
         console.log("Booking:", booking)
 
         // Validera antal rum och antal gäster beroende på vad som skickats in, antingen rum eller gäster eller både och
-        // Beräka total kostnad ifall rooms har ändrats, annars behåll 
-        const updatedRooms = rooms || booking.rooms
         const updatedGuests = guests || booking.guests
+        const updatedRooms = rooms || booking.rooms
 
-        if (updatedRooms || updatedGuests) {
+        // Kör bara om guests eller rooms har ändrats. Var tvungen att göra om rooms till strängar. Körs bara on något har ändrats
+        if (updatedGuests !== booking.guests || JSON.stringify(updatedRooms) !== JSON.stringify(booking.rooms)) {
             const validation = await validateGuestsAndRooms(updatedGuests, updatedRooms)
             if (!validation.valid) {
                 return {
@@ -42,7 +42,8 @@ exports.handler = async (event) => {
             }
         }
         
-        const updatedTotalCost = updatedRooms ? await calculateTotalPrice(updatedRooms) : booking.totalCost
+        // Beräka total kostnad ifall rooms har ändrats, annars behåll. Gör om till strängar för att kunna jämföra arrays och objects...
+        const updatedTotalCost = JSON.stringify(updatedRooms) !== JSON.stringify(booking.rooms) ? await calculateTotalPrice(updatedRooms) : booking.totalCost
         
         const updatedBooking = {
             ...booking,
@@ -50,7 +51,7 @@ exports.handler = async (event) => {
             rooms: rooms || booking.rooms,
             checkInDate: checkInDate || booking.checkInDate,
             checkOutDate: checkOutDate || booking.checkOutDate,
-            totalCost: updatedTotalCost || booking.totalCost 
+            totalCost: updatedTotalCost
         }
 
         await db.put({

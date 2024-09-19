@@ -55,7 +55,7 @@ module.exports.handler = async (event) => {
         }
 
         const bookingId = uuidv4()
-        const checkInDateFormatted = new Date(checkInDate).toISOString().split("T")[0]
+        const checkInDateFormatted = new Date(checkInDate).toISOString().split("T")[0] // Tar bort klockslag för att få YYYY-MM-DD
         const checkOutDateFormatted = new Date(checkOutDate).toISOString().split("T")[0]
 
         await db.put({
