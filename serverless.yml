@@ -53,6 +53,8 @@ functions:
       - httpApi:
           path: /booking/{id}
           method: put
+        
+    
 
 resources:
   Resources:
