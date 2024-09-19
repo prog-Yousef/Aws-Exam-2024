@@ -2,8 +2,7 @@ const {db} = require("../../services/db.js");
 const {sendResponse, sendError} = require("../../responses/index.js");
 
 exports.handler = async (event) => {
-    // Extracting path parameters (username and todoId) - although not used in the query here
-  
+    
     try {
       // Querying the DynamoDB table "bookings"
       const result = await db.query({
