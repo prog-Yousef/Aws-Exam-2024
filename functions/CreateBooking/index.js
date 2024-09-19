@@ -1,15 +1,12 @@
 const { db } = require("../../services/db")
 const { v4: uuidv4 } = require('uuid');
-
+const validateGuestsAndRooms = require("../../utils/validateGuestsAndRooms")
+const calculateTotalPrice = require("../../utils/calculateTotalPrice")
 
 
 module.exports.handler = async (event) => {
     console.log(event)
 
-    // Exempel på hur rooms array kan se ut:
-    // // rooms = [
-    //         { "roomType": "single", "quantity": 1 },
-    //     ]
     try {
 
         const { customerName, customerEmail, guests, rooms, checkInDate, checkOutDate, } = JSON.parse(event.body) // "name" är ett reserverat ord
@@ -21,38 +18,17 @@ module.exports.handler = async (event) => {
             }
         }
 
-        // Validera antal gäster och rum och räkna ut priset
-        let totalAllowedGuests = 0
-        let totalCost = 0
-        for (const room of rooms) {
-            const { roomType, quantity } = room
-
-            // Hämta info om rummen
-            const {Items} = await db.query({
-                TableName: "rooms",
-                KeyConditionExpression: "roomType = :roomType",
-                ExpressionAttributeValues: {
-                    ":roomType": roomType
-                }
-            })
-
-            console.log("Room details", Items)
-
-            const roomDetails = Items[0] // returnerade en array med aktuell rumstyp
-
-
-            // räkna ut totala antal gäster som får plats samt totala priset
-            totalAllowedGuests += roomDetails.guestsAllowed * quantity
-            totalCost += roomDetails.price * quantity
-        }
-
-        // Validera om totala antal gäster som får plats i bokningen är större än antal bokade gäster
-        if (totalAllowedGuests < guests) {
+        // Validera antal gäster och rummens kapacitet 
+        const validation = await validateGuestsAndRooms(guests, rooms) 
+        if (!validation.valid) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({ message: "Number of guests does not match total allowed guests" })
+                body: JSON.stringify({ message: validation.message})
             }
         }
+
+        // Beräkna kostnaden
+        const totalCost = await calculateTotalPrice(rooms)
 
         const bookingId = uuidv4()
         const checkInDateFormatted = new Date(checkInDate).toISOString().split("T")[0] // Tar bort klockslag för att få YYYY-MM-DD
