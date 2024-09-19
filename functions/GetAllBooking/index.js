@@ -5,24 +5,29 @@ const { db } = require("../../services/db")
 module.exports.handler = async (event) => {
     console.log(event)
 
-    // const { startDate, endDate } = JSON.parse(event.body)
-
     try {
         const {Items} = await db.scan({
             TableName: "bookings",
-            // IndexName: "CheckInDateIndex",
-            // KeyConditionExpression: "checkInDate >= :startDate AND checkInDate <= :endDate",
-            // ExpressionAttributeValues: {
-            //     ":startDate": startDate,
-            //     ":endDate": endDate
-            // },
-            // ScanIndexForward: true, // sorterar efter datum i fallande ordning 
-            ProjectionExpression: "bookingId, checkInDate, checkOutDate, numberOfGuests, customerName, rooms"
+            ProjectionExpression: "bookingId, checkInDate, checkOutDate, guests, customerName, rooms"
         })
+
+        const bookingResponse = Items.map(item => ({
+            bookingNumber: item.bookingId,
+            checkInDate: item.checkInDate,
+            checkOutDate: item.checkOutDate,
+            numberOfGuests: item.guests,
+            numberOfRooms: item.rooms.reduce((acc, room) => acc + room.quantity, 0), // Beräknar antalet rum
+            customerName: item.customerName
+
+        }
+        ))
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: "Successfully retreived bookings", Items})
+            body: JSON.stringify({ 
+                message: "Successfully retreived bookings", 
+                bookings: bookingResponse
+            })
         }
 
     } catch (error) {
