@@ -56,6 +56,9 @@ Install the project dependencies using npm:
 npm install
 Deploy the service:
 serverless deploy
+npm install moment
+npm install @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb
+npm install uuid
 ```
 
 **Environment Variables: Ensure you have the necessary environment variables set up for AWS credentials and any other configurations required.**
