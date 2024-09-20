@@ -8,13 +8,6 @@ exports.handler = async (event) => {
     try {
         const { id } = event.pathParameters
 
-        if (!event.body) {
-            return {
-                statusCode: 400,
-                body: json.stringify({ message: "Body is missing" })
-            }
-        }
-
         const { guests, rooms, checkInDate, checkOutDate } = JSON.parse(event.body)
 
         // Om inget skickats in så avbryt
@@ -75,28 +68,32 @@ exports.handler = async (event) => {
         let updateExpressions = []
         let expressionAttributeValues = {}
 
-        if (guests) {
+        // Uppdatera bara om attributet har ändrats. T ex om man skickar in ett attribut som ändrats och ett annat som inte har ändrats så kommer det ändå gå igenom, men bara uppdatera attributet som har ändrats.
+        if (guests && guests !== booking.guests) {
             updateExpressions.push("guests = :guests")
             expressionAttributeValues[":guests"] = guests
         }
 
-        if (rooms) {
+        if (rooms && JSON.stringify(rooms) !== JSON.stringify(booking.rooms)) {
             updateExpressions.push("rooms = :rooms")
             expressionAttributeValues[":rooms"] = rooms
         }
 
-        if (checkInDate) {
+        if (checkInDate && checkInDate !== booking.checkInDate) {
             updateExpressions.push("checkInDate = :checkInDate")
             expressionAttributeValues[":checkInDate"] = checkInDate
         }
 
-        if (checkOutDate) {
+        if (checkOutDate && checkOutDate !== booking.checkOutDate) {
             updateExpressions.push("checkOutDate = :checkOutDate")
             expressionAttributeValues[":checkOutDate"] = checkOutDate
         }
 
-        updateExpressions.push("totalCost = :totalCost")
-        expressionAttributeValues[":totalCost"] = updatedTotalCost
+        if (updatedTotalCost !== booking.totalCost) {
+            updateExpressions.push("totalCost = :totalCost")
+            expressionAttributeValues[":totalCost"] = updatedTotalCost
+        }
+        
 
         const updateExpression = "SET " + updateExpressions.join(", ")
 
@@ -105,7 +102,8 @@ exports.handler = async (event) => {
             Key: { bookingId: id},
             UpdateExpression: updateExpression,
             ExpressionAttributeValues: expressionAttributeValues,
-            ReturnValues: "ALL_NEW"
+            ReturnValues: "UPDATED_NEW" // returnerar endast de attribut som ändrats
+            // ReturnValues: "ALL_NEW" returnerar alla attribut efter uppdateringen
         })
 
         console.log("Update result:", updateResult)
