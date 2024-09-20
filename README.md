@@ -31,6 +31,21 @@ Bonz.ai is a forward-thinking company in the hospitality industry, dedicated to 
 
 👉 Error Handling: Robust error handling for DynamoDB operations and invalid input.
 
+**🌐 API Endpoints**
+
+POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
+POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
+POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
+POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
+GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
+GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
+PUT - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+PUT - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+DELETE - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+DELETE - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+
+
 🤸 Quick Start
 Follow these steps to set up the project locally on your machine.
 
