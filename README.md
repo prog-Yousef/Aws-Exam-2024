@@ -5,11 +5,13 @@ Bonz.ai is a forward-thinking company in the hospitality industry, dedicated to 
 
 ⚙️ Tech Stack
 
-Serverless Framework
-AWS Lambda
-API Gateway
-DynamoDB
-Node.js
+* Serverless Framework
+* AWS Cloud
+* AWS Lambda
+* API Gateway
+* DynamoDB
+* Node.js
+* JavaScript
 
 🔋 Features
 
