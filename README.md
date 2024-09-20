@@ -68,8 +68,13 @@ npm install uuid
 Once deployed, you can interact with the API using tools like Postman or cURL. The API endpoints include:
 
 👉 POST /rooms - Create a new room type.
+
 👉 POST /booking - Create a new booking.
+
 👉 GET /booking/{id} - Get details of a specific booking.
+
 👉 GET /booking - Get all bookings.
+
 👉 PUT /booking/{id} - Update a booking.
+
 👉 DELETE /booking/{id} - Delete a booking.
