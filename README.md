@@ -31,19 +31,7 @@ Bonz.ai is a forward-thinking company in the hospitality industry, dedicated to 
 
 👉 Error Handling: Robust error handling for DynamoDB operations and invalid input.
 
-**🌐 API Endpoints**
 
-* POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
-
-* POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
-
-* GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
-
-* GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
-
-* PUT - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
-
-* DELETE - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
 
 🤸 Quick Start
 Follow these steps to set up the project locally on your machine.
@@ -81,18 +69,18 @@ npm install uuid
 
 **Environment Variables: Ensure you have the necessary environment variables set up for AWS credentials and any other configurations required.**
 
-**🚀 Usage**
+**🚀 Usage 🌐 API Endpoints**
 
 Once deployed, you can interact with the API using tools like Postman or cURL. The API endpoints include:
 
-👉 POST /rooms - Create a new room type.
+👉 POST /rooms - Create a new room type. https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
 
-👉 POST /booking - Create a new booking.
+👉 POST /booking - Create a new booking. https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
 
-👉 GET /booking/{id} - Get details of a specific booking.
+👉 GET /booking/{id} - Get details of a specific booking. https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
 
-👉 GET /booking - Get all bookings.
+👉 GET /booking - Get all bookings.  https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
 
-👉 PUT /booking/{id} - Update a booking.
+👉 PUT /booking/{id} - Update a booking. https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
 
-👉 DELETE /booking/{id} - Delete a booking.
+👉 DELETE /booking/{id} - Delete a booking. DELETE - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
