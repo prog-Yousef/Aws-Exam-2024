@@ -33,16 +33,17 @@ Bonz.ai is a forward-thinking company in the hospitality industry, dedicated to 
 
 **🌐 API Endpoints**
 
-POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
-POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
+* POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/rooms
+  
+
 POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
-POST - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
+
 GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+
 GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
-GET - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking
+
 PUT - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
-PUT - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
-DELETE - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
+
 DELETE - https://nvzuoctuob.execute-api.eu-north-1.amazonaws.com/booking/{id}
 
 
