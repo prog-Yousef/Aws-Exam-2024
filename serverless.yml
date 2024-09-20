@@ -54,8 +54,12 @@ functions:
           path: /booking/{id}
           method: put
         
-    
-
+  DeleteBooking:
+    handler: functions/DeleteBooking/index.handler
+    events:
+      - httpApi:
+          path: /booking/{id}
+          method: delete
 resources:
   Resources:
     Bookings:
