@@ -1,8 +1,10 @@
 Bonz.ai Booking API
+
 🤖 Introduction
 Bonz.ai is a forward-thinking company in the hospitality industry, dedicated to enhancing customer experiences through innovative technology. We have developed a booking API using a serverless architecture on AWS. This approach allows us to focus on building and improving the application without worrying about server management. The serverless architecture also enables Bonz.ai to scale their booking system according to demand, which is ideal for handling varying traffic throughout the day or year.
 
 ⚙️ Tech Stack
+
 Serverless Framework
 AWS Lambda
 API Gateway
@@ -10,6 +12,7 @@ DynamoDB
 Node.js
 
 🔋 Features
+
 👉 Create Room: Allows administrators to add new room types to the system.
 
 👉 Create Booking: Enables users to book rooms, ensuring the number of guests matches the room capacity.
